@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+	<title>Img shuffle</title>
+	<style>button{display:block;}</style>
+</head>
+<body>
+<section>
+	<button class="show">Rodyti</button>
+	<button class="mix">Maisyti</button>
+</section>
+
+
+<script>
+"use strict"
+
+
+let section = document.querySelector("section");
+let button = document.querySelector(".show");
+let button2 = document.querySelector(".mix");
+// button.addEventListener();
+let xhr = new XMLHttpRequest();
+xhr.open("GET", "http://web-training.lt/img_api/")
+xhr.send();
+xhr.onload = function(){
+	if(xhr.status == 200){
+		console.log("paejo");
+		var duomenys = JSON.parse(xhr.response);
+		button.addEventListener("click", show1);
+		button2.addEventListener("click", mix);
+		function show1(){
+			duomenys.forEach(show);
+		}
+		function show(item){
+			let img = new Image(300, 300);
+			img.addEventListener("dblclick", function(){img.src="https://s14-eu5.startpage.com/cgi-bin/serveimage?url=https%3A%2F%2Fcosmicjs.imgix.net%2F57319310-b914-11e6-acef-b1b7e94fa195-earth.png%3Fw%3D640&sp=961c5aeadd63edd3e90e8e117a445f44&anticache=917143"})
+			img.src = `http://web-training.lt/img_api/img/${item}`;
+			section.appendChild(img);
+			button.remove();
+		}
+		console.log(shuffle(duomenys));
+		function mix(){
+			let arr = shuffle(duomenys);
+			let index = 0;
+			let images = document.querySelectorAll("img");
+			for(let i of images){
+				if(i.src != "https://s14-eu5.startpage.com/cgi-bin/serveimage?url=https%3A%2F%2Fcosmicjs.imgix.net%2F57319310-b914-11e6-acef-b1b7e94fa195-earth.png%3Fw%3D640&sp=961c5aeadd63edd3e90e8e117a445f44&anticache=917143"){
+					i.src = `http://web-training.lt/img_api/img/${arr[index]}`;
+					index++;
+				}
+			}
+		}
+
+		function shuffle(array) {
+			var currentIndex = array.length, temporaryValue, randomIndex;
+			while (0 !== currentIndex) {
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+			temporaryValue = array[currentIndex];
+			array[currentIndex] = array[randomIndex];
+			array[randomIndex] = temporaryValue;
+		  	}
+		  return array;
+		}
+	}
+}
+
+</script>
+</body>
+</html>
