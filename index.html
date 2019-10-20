@@ -19,13 +19,12 @@
 let section = document.querySelector("section");
 let button = document.querySelector(".show");
 let button2 = document.querySelector(".mix");
-// button.addEventListener();
+
 let xhr = new XMLHttpRequest();
 xhr.open("GET", "http://web-training.lt/img_api/")
 xhr.send();
 xhr.onload = function(){
 	if(xhr.status == 200){
-		console.log("paejo");
 		var duomenys = JSON.parse(xhr.response);
 		button.addEventListener("click", show1);
 		button2.addEventListener("click", mix);
